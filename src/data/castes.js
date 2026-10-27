@@ -1,0 +1,33 @@
+export const DIGAMBAR = [
+  "Dashahumbad (दशाहुंबड)",
+  "Saitwal (सैतवाल)",
+  "Chaturth (चतुर्थ)",
+  "Pancham (पंचम)",
+  "Dhakad (धाकड)",
+  "Kambhoj (कांबोज)",
+  "Kasar (कासार)",
+  "Bagerwal (बागरवाल)",
+  "Jaiswal (जैसवाल)",
+  "Agarwal (अगरवाल)",
+  "Bogar (बोगार)",
+  "Porwar (परवार)",
+  "Humbad (हुम्बड)",
+  "Visa Humbad (वीसा हुम्बड)",
+  "Khandelwal (खंडेलवाल)",
+  "Bannore (बन्नोरे)",
+];
+
+export const SHWETAMBAR = [
+  "Oswal (ओसवाल)",
+  "Porwal (पोरवाल)",
+  "Shrimali (श्रीमाळी)",
+  "Humad (हुमड)",
+  "Modi (मोदी)",
+  "Khandelwal (खांडेलवाल)",
+  "Gadiya (गाडिया)",
+  "Bagherwal (बाघेरवाल)",
+  "Dasha Shrimal / Dasha Oswal (दशा श्रीमाळ)",
+  "Visa Shrimali / Visa Oswal (वीसा ओसवाल / श्रीमाळी)",
+  "Soni (सोनी)",
+  "Lunka (लुंका)",
+];

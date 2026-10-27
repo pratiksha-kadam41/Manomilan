@@ -4,9 +4,4 @@
 
 @layer components {
   .card-hover-scale { @apply transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl; }
-  .gallery-img-container::after {
-    content: ''; position: absolute; inset: 0; background: rgba(220, 20, 60, 0.3);
-    opacity: 0; transition: opacity 0.3s ease-in-out; border-radius: 0.75rem; pointer-events: none;
-  }
-  .gallery-img-container:hover::after { opacity: 1; }
 }
