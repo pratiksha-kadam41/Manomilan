@@ -1,49 +1,50 @@
 import { useState } from 'react';
-import { SITE, NAV_LINKS } from '../data.js';
 import { Img, useModalBehavior } from './ui.jsx';
 
-export default function Header() {
+export default function Header({ SITE, NAV_LINKS }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const close = () => setMenuOpen(false);
   useModalBehavior(menuOpen, close);
-  const desktopLink = 'text-gray-600 hover:text-primary transition duration-300 text-[19px]';
+  const desktopLink = 'text-gray-700 transition-colors duration-300 hover:text-primary';
 
   return (
     <>
       <header className="sticky top-0 z-50 bg-blush shadow-lg">
-        <div className="container relative mx-auto flex items-center justify-between px-4">
-          <Img src="/website/output-onlinepngtools.png" alt="Jain emblem" className="hidden lg:block" style={{ width: 100, height: 125 }} />
+        <div className="container mx-auto flex min-h-20 items-center justify-between gap-3 px-4 py-2 xl:min-h-36 xl:gap-6 xl:py-3">
+          <Img
+            src="/website/output-onlinepngtools.png"
+            alt="Jain emblem"
+            className="hidden h-24 w-16 shrink-0 object-contain xl:block"
+          />
 
-          <div className="z-50 shrink-0 pt-4 transition duration-500 hover:scale-105 lg:self-start">
-            <Img src="/website/Mano_Milan_Final_Website.png" alt="Aaryan's Manomilan Logo" className="mx-auto lg:mx-0" style={{ width: 140, height: 155 }} />
+          <div className="shrink-0 transition-transform duration-300 hover:scale-105">
+            <Img
+              src="/website/Mano_Milan_Final_Website.png"
+              alt="Aaryan's Manomilan Logo"
+              className="h-20 w-24 object-contain sm:h-24 sm:w-32 xl:h-32 xl:w-36"
+            />
           </div>
 
-          <div className="hidden w-4 lg:block" />
-
-          <div className="hidden flex-grow flex-col items-center justify-center pt-1 lg:flex">
-            <h3 className="mb-5 text-[48px] font-bold text-maroon" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
+          <div className="hidden min-w-0 flex-1 flex-col items-center justify-center xl:flex">
+            <h3 className="mb-4 text-center text-4xl font-bold text-maroon 2xl:text-5xl" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
               <span className="text-white">||</span> जय जिनेन्द्र <span className="text-white">||</span>
             </h3>
-            <nav className="mt-2 flex items-center gap-5 whitespace-nowrap text-sm font-medium" aria-label="Main">
-              {NAV_LINKS.map((l) => <a key={l.label} href={l.href} className={desktopLink}>{l.label}</a>)}
-              <span className="group relative inline-block">
-                <span className={`cursor-pointer pb-2.5 ${desktopLink}`}>Registration Plan</span>
-                <div className="absolute left-1/2 top-full z-[10000] mt-[5px] hidden min-w-[200px] -translate-x-1/2 overflow-hidden rounded-lg border-2 border-blush bg-white pt-[5px] shadow-lg group-hover:block">
-                  {[['Registration', SITE.urls.register], ['Login', SITE.urls.login]].map(([label, href]) => (
-                    <a key={label} href={href} className="block whitespace-nowrap px-4 py-3 text-base text-[#333] transition-colors hover:bg-blush hover:text-primary">{label}</a>
-                  ))}
-                </div>
-              </span>
+            <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-base font-medium 2xl:gap-x-6" aria-label="Main">
+              {NAV_LINKS.map((l) => <a key={l.label} href={l.href} className={`${desktopLink} whitespace-nowrap`}>{l.label}</a>)}
             </nav>
           </div>
 
-          <Img src="/website/output-onlinepngtools.png" alt="Jain emblem" className="hidden lg:block" style={{ width: 100, height: 125 }} />
+          <Img
+            src="/website/output-onlinepngtools.png"
+            alt="Jain emblem"
+            className="hidden h-24 w-16 shrink-0 object-contain xl:block"
+          />
 
           {/* phone buttons */}
-          <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
-            <a href={SITE.urls.login} className="rounded-md border border-primary bg-white px-3 py-1.5 text-xs font-semibold text-primary shadow-sm">Login</a>
-            <a href={SITE.urls.register} className="whitespace-nowrap rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-white shadow-sm">Register</a>
-            <button className="ml-1 flex flex-col" onClick={() => setMenuOpen(true)} aria-label="Open menu">
+          <div className="flex items-center gap-2 sm:gap-3 xl:hidden">
+            <a href={SITE.urls.login} className="rounded-md border border-primary bg-white px-3 py-2 text-xs font-semibold text-primary shadow-sm">Login</a>
+            <a href={SITE.urls.register} className="whitespace-nowrap rounded-md bg-primary px-3 py-2 text-xs font-semibold text-white shadow-sm">Register</a>
+            <button className="ml-1 flex flex-col p-1" onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen}>
               {[0, 1, 2].map((i) => <span key={i} className="my-[3px] h-[3px] w-[25px] bg-maroon" />)}
             </button>
           </div>
@@ -58,6 +59,8 @@ export default function Header() {
             {NAV_LINKS.map((l) => (
               <a key={l.label} href={l.href} onClick={close} className="w-full border-b border-white/10 py-[15px] text-center text-lg text-white">{l.label}</a>
             ))}
+            <a href={SITE.urls.register} onClick={close} className="w-full border-b border-white/10 py-[15px] text-center text-lg text-white">Registration</a>
+            <a href={SITE.urls.login} onClick={close} className="w-full border-b border-white/10 py-[15px] text-center text-lg text-white">Login</a>
           </nav>
         </div>
       )}

@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaHeart } from 'react-icons/fa';
-import {
-  SITE, FOOTER_QUICK_LINKS, FOOTER_COMMUNITY_LINKS,
-  DIGAMBAR, SHWETAMBAR, PRIVACY_INTRO, PRIVACY_SECTIONS,
-} from '../data.js';
 import { Img, Modal, useModalBehavior } from './ui.jsx';
 
 /* ---------------------------- upcoming events poster ---------------------------- */
@@ -14,7 +10,7 @@ export function UpcomingEvents() {
   useModalBehavior(open, close);
   return (
     <>
-      <button onClick={() => setOpen(true)} className="fixed bottom-5 right-5 z-[1000] flex animate-float items-center gap-2 rounded-full bg-crimson px-6 py-3 font-bold text-white shadow-lg transition-transform hover:scale-110">
+      <button onClick={() => setOpen(true)} className="fixed bottom-4 right-4 z-[1000] flex animate-float items-center gap-2 rounded-full bg-crimson px-4 py-3 text-sm font-bold text-white shadow-lg transition-transform hover:scale-110 sm:bottom-5 sm:right-5 sm:px-6 sm:text-base">
         <span aria-hidden="true">📢</span> Upcoming Events
       </button>
       {open && (
@@ -37,7 +33,7 @@ const CasteList = ({ items }) => (
   </ol>
 );
 
-function PrivacyPolicy() {
+function PrivacyPolicy({ SITE, PRIVACY_INTRO, PRIVACY_SECTIONS }) {
   return (
     <div className="text-[#555]">
       <p className="mb-5 leading-[1.8]">{PRIVACY_INTRO}</p>
@@ -79,7 +75,15 @@ function FooterList({ title, links, onModal }) {
   );
 }
 
-export default function Footer() {
+export default function Footer({
+  SITE,
+  FOOTER_QUICK_LINKS,
+  FOOTER_COMMUNITY_LINKS,
+  DIGAMBAR,
+  SHWETAMBAR,
+  PRIVACY_INTRO,
+  PRIVACY_SECTIONS,
+}) {
   const [modal, setModal] = useState(null);
   const close = () => setModal(null);
   const social = [
@@ -89,11 +93,11 @@ export default function Footer() {
   ];
   return (
     <>
-      <footer id="contact" className="pb-8 pt-16 text-black">
+      <footer id="contact" className="pb-8 pt-12 text-black sm:pt-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 grid grid-cols-1 gap-12 border-b border-gray-700 pb-12 md:grid-cols-4">
-            <div>
-              <Img src="/website/Mano_Milan_Final_Website.png" alt="Aaryan's Manomilan Logo" className="h-auto w-auto" />
+          <div className="mb-8 grid grid-cols-1 gap-8 border-b border-gray-700 pb-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:gap-12 lg:pb-12">
+            <div className="min-w-0">
+              <Img src="/website/Mano_Milan_Final_Website.png" alt="Aaryan's Manomilan Logo" className="h-auto w-full max-w-[180px] object-contain" />
               <div className="mt-6 flex space-x-4">
                 {social.map(([href, Icon, label]) => (
                   <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="transition hover:text-secondary"><Icon /></a>
@@ -102,7 +106,7 @@ export default function Footer() {
             </div>
             <FooterList title="Quick Links" links={FOOTER_QUICK_LINKS} onModal={setModal} />
             <FooterList title="Community" links={FOOTER_COMMUNITY_LINKS} onModal={setModal} />
-            <div>
+            <div className="min-w-0 break-words">
               <h4 className="mb-4 text-xl font-semibold text-black">Contact us</h4>
               <ul className="space-y-3">
                 <li className="flex items-start"><FaMapMarkerAlt className="mr-3 mt-1 shrink-0 text-primary" /><span>{SITE.address}</span></li>
@@ -119,7 +123,9 @@ export default function Footer() {
 
       <Modal open={modal === 'digambar'} title="Digambar Jain Sub-Castes" onClose={close}><CasteList items={DIGAMBAR} /></Modal>
       <Modal open={modal === 'shwetambar'} title="Shwetambar Jain Sub-Castes" onClose={close}><CasteList items={SHWETAMBAR} /></Modal>
-      <Modal open={modal === 'privacy'} title="Privacy Policy - Aaryans Manomilan" onClose={close} maxWidth={900} tall><PrivacyPolicy /></Modal>
+      <Modal open={modal === 'privacy'} title="Privacy Policy - Aaryans Manomilan" onClose={close} maxWidth={900} tall>
+        <PrivacyPolicy SITE={SITE} PRIVACY_INTRO={PRIVACY_INTRO} PRIVACY_SECTIONS={PRIVACY_SECTIONS} />
+      </Modal>
     </>
   );
 }

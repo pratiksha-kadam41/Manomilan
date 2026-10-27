@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { WHY_CHOOSE, COMMITTEE, GALLERY } from '../data.js';
 import { Img, useModalBehavior } from './ui.jsx';
 
 const initials = (name) =>
@@ -7,15 +6,15 @@ const initials = (name) =>
 
 /* ------------------------------ why choose us ------------------------------ */
 
-export function WhyChooseUs() {
+export function WhyChooseUs({ WHY_CHOOSE }) {
   return (
-    <section id="why-choose-us" className="bg-[#dc143ca6] py-16 md:py-24">
+    <section id="why-choose-us" className="bg-[#dc143ca6] py-12 sm:py-16 md:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="mb-4 text-center text-4xl font-extrabold text-white">Why Choose Aaryans Manomilan?</h2>
-        <p className="mb-12 text-center text-xl text-white">Commitment to community, culture, and finding your forever match.</p>
+        <h2 className="mb-4 text-center text-3xl font-extrabold text-white sm:text-4xl">Why Choose Aaryans Manomilan?</h2>
+        <p className="mx-auto mb-10 max-w-3xl text-center text-base text-white sm:mb-12 sm:text-xl">Commitment to community, culture, and finding your forever match.</p>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {WHY_CHOOSE.map((c) => (
-            <article key={c.title} className="card-hover-scale rounded-xl border border-gray-200 bg-white p-8 shadow-lg">
+            <article key={c.title} className="card-hover-scale rounded-xl border border-gray-200 bg-white p-6 shadow-lg sm:p-8">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
                 <Img src={c.img} alt="" width="70" height="50" />
               </div>
@@ -40,25 +39,25 @@ function Avatar({ member, size }) {
   );
 }
 
-export function Committee() {
+export function Committee({ COMMITTEE }) {
   const [selected, setSelected] = useState(null);
   const close = () => setSelected(null);
   useModalBehavior(!!selected, close);
   const loop = [...COMMITTEE, ...COMMITTEE]; // repeated twice so the slider loops without a gap
 
   return (
-    <section id="committee" className="overflow-hidden bg-white py-16">
+    <section id="committee" className="overflow-hidden bg-white py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="mb-4 text-center text-4xl font-extrabold text-maroon">Our Committee Members</h2>
-        <p className="mb-12 text-center text-xl text-gray-600">The dedicated hearts steering Aaryans Manomilan</p>
+        <h2 className="mb-4 text-center text-3xl font-extrabold text-maroon sm:text-4xl">Our Committee Members</h2>
+        <p className="mb-8 text-center text-base text-gray-600 sm:mb-12 sm:text-xl">The dedicated hearts steering Aaryans Manomilan</p>
 
         <div className="relative flex w-full overflow-hidden py-4">
           <div className="pointer-events-none absolute left-0 top-0 z-[2] h-full w-20 bg-gradient-to-r from-white to-transparent" />
           <div className="pointer-events-none absolute right-0 top-0 z-[2] h-full w-20 bg-gradient-to-l from-white to-transparent" />
           <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
             {loop.map((m, i) => (
-              <button key={`${m.id}-${i}`} onClick={() => setSelected(m)} className="group flex w-[270px] shrink-0 cursor-pointer flex-col items-center px-6 text-center">
-                <div className="mb-4 transition-all duration-300 group-hover:scale-105"><Avatar member={m} size="h-48 w-48" /></div>
+              <button key={`${m.id}-${i}`} onClick={() => setSelected(m)} className="group flex w-[220px] shrink-0 cursor-pointer flex-col items-center px-4 text-center sm:w-[270px] sm:px-6">
+                <div className="mb-4 transition-all duration-300 group-hover:scale-105"><Avatar member={m} size="h-40 w-40 sm:h-48 sm:w-48" /></div>
                 <h3 className="text-lg font-bold text-gray-800 transition-colors group-hover:text-primary">{m.name}</h3>
                 <p className="text-sm font-medium text-secondary">{m.role}</p>
               </button>
@@ -69,9 +68,9 @@ export function Committee() {
 
       {selected && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={(e) => e.target === e.currentTarget && close()} role="dialog" aria-modal="true" aria-label={selected.name}>
-          <div className="relative mx-auto flex w-11/12 max-w-md flex-col items-center rounded-2xl bg-white p-8 text-center shadow-2xl">
+          <div className="relative mx-auto flex w-11/12 max-w-md flex-col items-center rounded-2xl bg-white p-6 text-center shadow-2xl sm:p-8">
             <button onClick={close} aria-label="Close" className="absolute right-4 top-4 p-2 text-3xl leading-none text-gray-400 hover:text-gray-700">&times;</button>
-            <div className="mb-6"><Avatar member={selected} size="h-56 w-56" /></div>
+            <div className="mb-6"><Avatar member={selected} size="h-44 w-44 sm:h-56 sm:w-56" /></div>
             <h3 className="mb-2 text-2xl font-bold text-gray-900">{selected.name}</h3>
             <p className="mb-4 text-base font-semibold text-secondary">{selected.role}</p>
             <p className="max-w-sm text-sm text-gray-600">Dedicated to bringing hearts together and steering Aaryans Manomilan with trust, guidance, and community spirit.</p>
@@ -84,12 +83,12 @@ export function Committee() {
 
 /* --------------------------------- gallery --------------------------------- */
 
-export function Gallery() {
+export function Gallery({ GALLERY }) {
   return (
-    <section id="gallery" className="bg-blush py-16 md:py-24">
+    <section id="gallery" className="bg-blush py-12 sm:py-16 md:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="mb-4 text-center text-4xl font-extrabold text-gray-900">Captured Moments</h2>
-        <p className="mb-12 text-center text-xl text-gray-600">Real Stories. Real Connections. Real Happiness.</p>
+        <h2 className="mb-4 text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">Captured Moments</h2>
+        <p className="mb-8 text-center text-base text-gray-600 sm:mb-12 sm:text-xl">Real Stories. Real Connections. Real Happiness.</p>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {GALLERY.map((g) => (
             <div key={g.src} className={`card-hover-scale relative h-48 overflow-hidden rounded-xl bg-gradient-to-br from-primary to-maroon shadow-lg sm:h-64 ${g.className || ''}`}>

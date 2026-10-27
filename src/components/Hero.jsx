@@ -1,4 +1,3 @@
-import { SITE, HERO_BACKGROUNDS, LEFT_REELS, RIGHT_REELS } from '../data.js';
 import { Img, useAutoSlider } from './ui.jsx';
 
 function ReelSlider({ reels, delay = 3500 }) {
@@ -33,10 +32,10 @@ function ReelSlider({ reels, delay = 3500 }) {
 
 const deva = { fontFamily: "'Noto Sans Devanagari','Arial Unicode MS',Arial,sans-serif" };
 
-export default function Hero() {
+export default function Hero({ SITE, HERO_BACKGROUNDS, LEFT_REELS, RIGHT_REELS }) {
   const active = useAutoSlider(HERO_BACKGROUNDS.length, 5000);
   return (
-    <section id="home" className="relative flex min-h-[85vh] items-center overflow-hidden bg-gradient-to-br from-maroon to-black pb-12 pt-28 lg:min-h-[90vh] lg:py-0">
+    <section id="home" className="relative flex min-h-[70vh] items-center overflow-hidden bg-gradient-to-br from-maroon to-black py-12 sm:min-h-[75vh] sm:py-16 xl:min-h-[90vh] xl:py-0">
       <div className="absolute inset-0 h-full w-full">
         {HERO_BACKGROUNDS.map((src, i) => (
           <Img
@@ -48,27 +47,27 @@ export default function Hero() {
       <div className="absolute inset-0 z-10 bg-black/50" />
 
       <div className="container relative z-20 mx-auto w-full px-4">
-        <div className="flex flex-col items-center justify-between py-12 text-white lg:flex-row">
-          <div className="w-full p-6 text-center lg:w-1/2 lg:pl-28 lg:pr-8">
-            <h3 className="mb-6 text-[20px] font-extrabold sm:text-[24px] lg:text-[34px]" style={deva}>येथे मनं मिळतात...</h3>
-            <h3 className="mb-6 text-[28px] font-extrabold sm:text-[32px] lg:text-[44px]" style={deva}>नाती जुळतात…</h3>
+        <div className="flex flex-col items-center justify-center py-4 text-white xl:flex-row xl:justify-between">
+          <div className="w-full max-w-3xl px-2 py-6 text-center sm:px-6 xl:w-1/2 xl:max-w-none xl:px-8">
+            <h3 className="mb-4 text-xl font-extrabold sm:text-2xl lg:text-3xl" style={deva}>येथे मनं मिळतात...</h3>
+            <h3 className="mb-6 text-3xl font-extrabold sm:text-4xl lg:text-5xl" style={deva}>नाती जुळतात…</h3>
 
-            <div className="mb-8 flex items-center justify-center gap-4 sm:gap-6">
-              <a href={SITE.urls.register} className="inline-block whitespace-nowrap rounded-full bg-crimson px-4 py-1.5 text-center text-sm font-bold text-white shadow-lg transition duration-300 hover:scale-105 hover:brightness-110 sm:px-6 sm:py-2 sm:text-lg">
+            <div className="mb-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+              <a href={SITE.urls.register} className="inline-block rounded-full bg-crimson px-5 py-3 text-center text-sm font-bold text-white shadow-lg transition duration-300 hover:scale-105 hover:brightness-110 sm:px-6 sm:text-base">
                 Melava Registration
               </a>
-              <span className="animate-blink whitespace-nowrap text-center text-sm font-extrabold text-[#ffd700] sm:text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="text-center text-base font-extrabold text-[#ffd700] sm:text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Fee: {SITE.fee.total}
-                <span className="mt-0.5 block text-[15px] text-white">{SITE.fee.breakup}</span>
+                <span className="mt-0.5 block text-sm text-white">{SITE.fee.breakup}</span>
               </span>
             </div>
 
-            <h2 className="animate-blink text-[16px] font-medium leading-normal text-white/70 sm:text-[18px] lg:text-[40px] lg:leading-[4.25rem]">
+            <h2 className="text-base font-medium leading-relaxed text-white/90 sm:text-xl lg:text-2xl xl:text-3xl">
               Where Souls Connect. <br />Because Every Jain Heart<br />Deserves a True Match.
             </h2>
           </div>
 
-          <div className="hidden w-full items-center justify-center gap-4 p-4 lg:flex lg:w-1/2 xl:gap-8 xl:p-6">
+          <div className="hidden w-1/2 items-center justify-center gap-4 p-4 xl:flex 2xl:gap-8 2xl:p-6">
             <ReelSlider reels={LEFT_REELS} />
             <ReelSlider reels={RIGHT_REELS} />
           </div>
