@@ -1,26 +1,26 @@
-// Floating "Upcoming Events" button (bottom-right) and the poster popup it opens.
-// The popup is a Bootstrap modal: data-bs-toggle / data-bs-target / data-bs-dismiss do the opening and closing.
+import { useState } from "react";
 
+// Floating "Upcoming Events" button + poster popup (Bootstrap modal markup).
 export default function UpcomingEvents() {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      <button type="button" className="events-btn" data-bs-toggle="modal" data-bs-target="#eventsModal">
-        <i className="bi bi-megaphone-fill me-2" />Upcoming Events
-      </button>
+      <div className="event-btn" onClick={() => setOpen(true)}>
+        <span>📢</span> Upcoming Events
+      </div>
 
-      <div className="modal fade" id="eventsModal" tabIndex="-1" aria-label="Upcoming events poster" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content bg-transparent border-0">
-            <button type="button" className="btn-close btn-close-white ms-auto mb-2" data-bs-dismiss="modal" aria-label="Close" />
-            <img
-              src="/website/upcoming.jpeg"
-              alt="Event Poster"
-              className="img-fluid rounded"
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-            />
+      {open && (
+        <div className="modal fade show d-block poster-modal"
+             onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <span className="poster-close" onClick={() => setOpen(false)}>&times;</span>
+              <img src="/website/upcoming.jpeg" alt="Event Poster" />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

@@ -1,5 +1,3 @@
-// "Why Choose Aaryans Manomilan?" – six cards.
-
 const CARDS = [
   { img: "/website/hand.png", title: "Traditional Methods Of Match Making", text: "Community-Based Introductions: The platform facilitates matches through trusted family networks, Jain Sanghs, and broader community connections." },
   { img: "/website/2.jpeg", title: "Quick Reach To The Community", text: "Quick Community Connections: Instantly connect within your Jain community for faster, meaningful matches." },
@@ -11,20 +9,21 @@ const CARDS = [
 
 export default function WhyChoose() {
   return (
-    <section id="why-choose-us" className="why section-pad">
-      <div className="container">
-        <h2 className="section-title text-white">Why Choose Aaryans Manomilan?</h2>
-        <p className="text-center text-white fs-4 mb-5">Commitment to community, culture, and finding your forever match.</p>
-        <div className="row cards-row">
+    <section id="why-choose-us" className="why">
+      <div className="site-container">
+        <h2 className="sec-title">Why Choose Aaryans Manomilan?</h2>
+        <p className="sec-sub">Commitment to community, culture, and finding your forever match.</p>
+
+        <div className="row why-grid">
           {CARDS.map((c) => (
-            <div key={c.title} className="col-md-6 col-lg-4">
-              <article className="why-card card h-100 text-center shadow hover-lift">
-                <div className="mb-3">
-                  <img src={c.img} alt="" className="why-icon" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+            <div key={c.title} className="col-12 col-md-6 col-lg-4">
+              <div className="why-card lift">
+                <div className="why-icon">
+                  <img src={c.img} width="70" height="50" alt="" />
                 </div>
-                <h3 className="h5 fw-bold text-dark mb-3">{c.title}</h3>
-                <p className="text-secondary mb-0">{c.text}</p>
-              </article>
+                <h3>{c.title}</h3>
+                <p>{c.text}</p>
+              </div>
             </div>
           ))}
         </div>
