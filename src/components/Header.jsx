@@ -1,30 +1,31 @@
 import { useEffect, useState } from "react";
 
-const SITE_URL = "https://aaryansmanomilan.com";
-const REGISTER_URL = `${SITE_URL}/melava/public/register`;
-const LOGIN_URL = `${SITE_URL}/login`;
 const PLACEHOLDER = "https://placehold.co/200x180/DC143C/FFFFFF?text=Aaryan's+Manomilan";
 
 // If a logo file is missing, show a placeholder once.
 const logoFallback = (e) => { e.currentTarget.onerror = null; e.currentTarget.src = PLACEHOLDER; };
 
+// "#/xxx" = a page inside this project
 const DESKTOP_LINKS = [
-  ["Home", SITE_URL],
-  ["About us", `${SITE_URL}/aboutus`],
-  ["How It Works", `${SITE_URL}/how-it-works`],
-  ["Success Stories", `${SITE_URL}/success-stories`],
-  ["Our services", `${SITE_URL}/ourServices`],
-  ["Contact us", `${SITE_URL}/contactus`],
+  ["Home", "#/"],
+  ["About us", "#/aboutus"],
+  ["How It Works", "#/how-it-works"],
+  ["Success Stories", "#/success-stories"],
+  ["Our services", "#/our-services"],
+  ["Contact us", "#/contactus"],
 ];
 
 const MOBILE_LINKS = [
-  ["Home", SITE_URL],
-  ["About", `${SITE_URL}/aboutus`],
-  ["How It Works", `${SITE_URL}/how-it-works`],
-  ["Success Stories", "#"],
-  ["Our services", `${SITE_URL}/ourServices`],
-  ["Contact us", `${SITE_URL}/contactus`],
+  ["Home", "#/"],
+  ["About", "#/aboutus"],
+  ["How It Works", "#/how-it-works"],
+  ["Success Stories", "#/success-stories"],
+  ["Our services", "#/our-services"],
+  ["Contact us", "#/contactus"],
 ];
+
+const REGISTER_URL = "#/register";
+const LOGIN_URL = "#/login";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -40,8 +41,10 @@ export default function Header() {
                className="d-none d-lg-block" style={{ width: 100, height: 125 }} />
 
           <div className="header-logo-box">
-            <img src="/website/Mano_Milan_Final_Website.png" onError={logoFallback} alt="Aaryan's Manomilan Logo"
-                 className="mx-auto mx-lg-0" style={{ width: 140, height: 155 }} />
+            <a href="#/">
+              <img src="/website/Mano_Milan_Final_Website.png" onError={logoFallback} alt="Aaryan's Manomilan Logo"
+                   className="mx-auto mx-lg-0" style={{ width: 140, height: 155 }} />
+            </a>
           </div>
 
           <div className="d-none d-lg-block" style={{ width: "1rem" }} />

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const REGISTER_URL = "https://aaryansmanomilan.com/melava/public/register";
+const REGISTER_URL = "#/register";
 
 const BACKGROUNDS = [
   "/website/bg_slider.jpg",
