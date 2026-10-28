@@ -1,26 +1,70 @@
-import { Img, useAutoSlider } from './ui.jsx';
+import { useEffect, useState } from "react";
+
+// Big banner: fading background photos, text, registration button and the two reel cards.
+
+const REGISTER_URL = "https://aaryansmanomilan.com/melava/public/register";
+const FEE = { total: "₹1500", breakup: "(₹1200 + ₹300)" };
+
+// Missing files just leave the dark background visible.
+const BACKGROUNDS = [
+  "/website/bg_slider.jpg",
+  "https://images.pexels.com/photos/29450289/pexels-photo-29450289.jpeg",
+];
+
+// Each reel = cover picture + the Instagram reel it opens (href: null = not clickable).
+const ig = (id) => `https://www.instagram.com/reel/${id}`;
+
+const LEFT_REELS = [
+  { img: "/videos/stage.jpeg", alt: "Stage Image", href: ig("DY1-7DdTnTk/?igsh=Z3M3bjZ5Y3BxOGxq") },
+  { img: "/videos/7000 muli mul.jpeg", alt: "7000 Muli Mul", href: ig("DYUU_XdicAu/?igsh=Yzg2MGZ4dzUxdmRo") },
+  { img: "/videos/gandhi.jpeg", alt: "Gandhi", href: ig("DYsC-COzMhW/?igsh=MXFwc3FoaDZjYWRqbA==") },
+  { img: "/videos/kondekar.jpeg", alt: "Kondekar", href: ig("DY6iCYrTvlH/?igsh=MXNlb3VzYjc3Y2oxNQ==") },
+  { img: "/videos/mamta.jpeg", alt: "Mamta", href: ig("DY6ik19zTCV/?igsh=MXQ0dG9lNWw3OHBkNw==") },
+  { img: "/videos/rupresha.jpeg", alt: "Rupresha", href: null },
+  { img: "/videos/shetty sir.jpeg", alt: "Shetty Sir", href: ig("DYwFWa_CwKW/?igsh=cDRyM3E2bHVoYzNh") },
+  { img: "/videos/dagade sir.jpeg", alt: "Dagade Sir", href: ig("DY6jH6OzjiR/?igsh=MTBubWlldG5vOXM0dg") },
+];
+
+const RIGHT_REELS = [
+  { img: "/videos/new_reel.jpeg", alt: "New Reel", href: ig("DZpd_ZPpd3B/?igsh=M21sdjd1cG9mOG9z") },
+  { img: "/videos/new_reel_dz7b.png", alt: "New Reel", href: ig("DZ7bHsutz-g/?igsh=cG56emx1c2tuMzZv") },
+  { img: "/videos/new_reel_dzzn.png", alt: "New Reel", href: ig("DZznG7KCtVs/?igsh=MXNscGFjM2V0NTBjdA==") },
+  { img: "/videos/new_reel_dzuk.png", alt: "New Reel", href: ig("DZukKtlJfbZ/?igsh=MWwxM2FjanZ6ZmZ2Nw==") },
+  { img: "/videos/new_reel_dak3.png", alt: "New Reel", href: ig("DaK30XuNa0y/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==") },
+];
+
+const hideBroken = (e) => { e.currentTarget.style.display = "none"; };
+
+// Gives 0, 1, 2, 0, 1, 2 ... changing every `delay` milliseconds.
+function useSlider(length, delay) {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    if (length < 2) return undefined;
+    const id = setInterval(() => setIndex((i) => (i + 1) % length), delay);
+    return () => clearInterval(id);
+  }, [length, delay]);
+  return index;
+}
 
 function ReelSlider({ reels, delay = 3500 }) {
-  const index = useAutoSlider(reels.length, delay);
+  const index = useSlider(reels.length, delay);
   return (
-    <div className="relative h-[28rem] w-52 shrink-0 overflow-hidden rounded-3xl border-4 border-white/30 bg-black shadow-2xl xl:h-[32rem] xl:w-72">
-      <div className="flex h-full transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${index * 100}%)` }}>
+    <div className="reel">
+      <div className="reel-track" style={{ transform: `translateX(-${index * 100}%)` }}>
         {reels.map((r) => {
           const inner = (
             <>
-              <span className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-maroon to-black p-4 text-center text-lg text-white/70">{r.alt}</span>
-              <Img src={r.img} alt={r.alt} className="absolute inset-0 h-full w-full object-cover" />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-80">
-                <svg className="h-16 w-16 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-              </div>
+              <span className="reel-placeholder">{r.alt}</span>
+              <img src={r.img} alt={r.alt} className="reel-img" onError={hideBroken} />
+              <span className="reel-play"><i className="bi bi-play-fill" /></span>
             </>
           );
           return (
-            <div key={r.img} className="relative h-full w-full shrink-0">
+            <div key={r.img} className="reel-slide">
               {r.href ? (
-                <a href={r.href} target="_blank" rel="noopener noreferrer" className="relative z-10 block h-full w-full" aria-label={`Watch reel: ${r.alt}`}>{inner}</a>
+                <a href={r.href} target="_blank" rel="noopener noreferrer" className="reel-link" aria-label={`Watch reel: ${r.alt}`}>{inner}</a>
               ) : (
-                <div className="relative z-10 h-full w-full">{inner}</div>
+                <div className="reel-link">{inner}</div>
               )}
             </div>
           );
@@ -30,44 +74,36 @@ function ReelSlider({ reels, delay = 3500 }) {
   );
 }
 
-const deva = { fontFamily: "'Noto Sans Devanagari','Arial Unicode MS',Arial,sans-serif" };
-
-export default function Hero({ SITE, HERO_BACKGROUNDS, LEFT_REELS, RIGHT_REELS }) {
-  const active = useAutoSlider(HERO_BACKGROUNDS.length, 5000);
+export default function Hero() {
+  const active = useSlider(BACKGROUNDS.length, 5000);
   return (
-    <section id="home" className="relative flex min-h-[70vh] items-center overflow-hidden bg-gradient-to-br from-maroon to-black py-12 sm:min-h-[75vh] sm:py-16 xl:min-h-[90vh] xl:py-0">
-      <div className="absolute inset-0 h-full w-full">
-        {HERO_BACKGROUNDS.map((src, i) => (
-          <Img
-            key={src} src={src} alt=""
-            className={`absolute inset-0 h-full w-full animate-kenburns object-cover transition-opacity duration-[1500ms] ease-in-out ${i === active ? 'opacity-100' : 'opacity-0'}`}
-          />
-        ))}
-      </div>
-      <div className="absolute inset-0 z-10 bg-black/50" />
+    <section id="home" className="hero">
+      {BACKGROUNDS.map((src, i) => (
+        <img key={src} src={src} alt="" className={`hero-bg ${i === active ? "active" : ""}`} onError={hideBroken} />
+      ))}
+      <div className="hero-overlay" />
 
-      <div className="container relative z-20 mx-auto w-full px-4">
-        <div className="flex flex-col items-center justify-center py-4 text-white xl:flex-row xl:justify-between">
-          <div className="w-full max-w-3xl px-2 py-6 text-center sm:px-6 xl:w-1/2 xl:max-w-none xl:px-8">
-            <h3 className="mb-4 text-xl font-extrabold sm:text-2xl lg:text-3xl" style={deva}>येथे मनं मिळतात...</h3>
-            <h3 className="mb-6 text-3xl font-extrabold sm:text-4xl lg:text-5xl" style={deva}>नाती जुळतात…</h3>
+      <div className="container hero-content">
+        <div className="row align-items-center">
+          <div className="col-lg-6 hero-text-col text-center text-white py-4">
+            <h3 className="hero-marathi one">येथे मनं मिळतात...</h3>
+            <h3 className="hero-marathi two">नाती जुळतात…</h3>
 
-            <div className="mb-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-              <a href={SITE.urls.register} className="inline-block rounded-full bg-crimson px-5 py-3 text-center text-sm font-bold text-white shadow-lg transition duration-300 hover:scale-105 hover:brightness-110 sm:px-6 sm:text-base">
-                Melava Registration
-              </a>
-              <span className="text-center text-base font-extrabold text-[#ffd700] sm:text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Fee: {SITE.fee.total}
-                <span className="mt-0.5 block text-sm text-white">{SITE.fee.breakup}</span>
+            <div className="d-flex align-items-center justify-content-center gap-3 mb-4">
+              <a href={REGISTER_URL} className="btn btn-crimson rounded-pill fw-bold px-4">Melava Registration</a>
+              <span className="fee blink">
+                Fee: {FEE.total}
+                <small className="d-block">{FEE.breakup}</small>
               </span>
             </div>
 
-            <h2 className="text-base font-medium leading-relaxed text-white/90 sm:text-xl lg:text-2xl xl:text-3xl">
-              Where Souls Connect. <br />Because Every Jain Heart<br />Deserves a True Match.
+            <h2 className="hero-tagline blink">
+              Where Souls Connect.<br />Because Every Jain Heart<br />Deserves a True Match.
             </h2>
           </div>
 
-          <div className="hidden w-1/2 items-center justify-center gap-4 p-4 xl:flex 2xl:gap-8 2xl:p-6">
+          {/* reel cards: hidden on phones */}
+          <div className="col-lg-6 reel-pair d-none d-lg-flex justify-content-center">
             <ReelSlider reels={LEFT_REELS} />
             <ReelSlider reels={RIGHT_REELS} />
           </div>

@@ -1,0 +1,548 @@
+
+/* =====================================================================
+   Aaryan's Manomilan – custom styles on top of Bootstrap.
+   Sections below are in the same order as the page.
+   ===================================================================== */
+
+:root {
+  --primary: #dc143c;
+  --secondary: #f75270;
+  --maroon: #b70650;
+  --blush: #f7cac9;
+  --crimson: #c0003b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- shared bits ---------- */
+
+.text-maroon {
+  color: var(--maroon) !important;
+}
+
+.text-pink {
+  color: var(--secondary) !important;
+}
+
+.bg-blush {
+  background-color: var(--blush) !important;
+}
+
+.btn-crimson {
+  background: var(--crimson);
+  color: #fff;
+  border: 0;
+}
+
+.btn-crimson:hover {
+  background: var(--crimson);
+  color: #fff;
+  filter: brightness(1.1);
+}
+
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  font-size: 1.25rem;
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 3rem;
+}
+
+.hover-lift {
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, .18) !important;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.05) translate(0, 0);
+  }
+
+  to {
+    transform: scale(1.95) translate(1%, 1%);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .2;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.blink {
+  animation: blink 1.5s linear infinite;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  background: var(--blush);
+}
+
+.header-title {
+  color: var(--maroon);
+  font-size: 48px;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+}
+
+.nav-link-custom {
+  color: #4b5563;
+  font-size: 19px;
+  text-decoration: none;
+  transition: color .3s;
+}
+
+.nav-link-custom:hover {
+  color: var(--primary);
+}
+
+.site-header .dropdown-menu {
+  border: 2px solid var(--blush);
+}
+
+.site-header .dropdown-item:hover {
+  background: var(--blush);
+  color: var(--primary);
+}
+
+.menu-btn {
+  color: var(--maroon);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 90vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--maroon), #000);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  animation: kenburns 20s ease-in-out infinite alternate;
+}
+
+.hero-bg.active {
+  opacity: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-marathi {
+  font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', Arial, sans-serif;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.hero-marathi.one {
+  font-size: clamp(20px, 3vw, 34px);
+}
+
+.hero-marathi.two {
+  font-size: clamp(28px, 4vw, 44px);
+}
+
+.fee {
+  font-family: 'Playfair Display', serif;
+  font-weight: 800;
+  color: #ffd700;
+  font-size: 1.25rem;
+}
+
+.fee small {
+  font-size: 15px;
+  color: #fff;
+}
+
+.hero-tagline {
+  font-weight: 500;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, .7);
+  font-size: clamp(18px, 2.6vw, 40px);
+}
+
+.reel {
+  position: relative;
+  width: 208px;
+  height: 448px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 4px solid rgba(255, 255, 255, .3);
+  background: #000;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, .5);
+}
+
+@media (min-width: 1200px) {
+  .reel {
+    width: 288px;
+    height: 512px;
+  }
+}
+
+.reel-track {
+  display: flex;
+  height: 100%;
+  transition: transform .7s ease-in-out;
+}
+
+.reel-slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: 100%;
+}
+
+.reel-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.reel-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, .7);
+  background: linear-gradient(135deg, var(--maroon), #000);
+}
+
+.reel-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reel-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .3);
+  color: #fff;
+  font-size: 4rem;
+}
+
+/* ---------- Why choose us ---------- */
+
+.why {
+  background: #dc143ca6;
+}
+
+/* ---------- Committee ---------- */
+
+.marquee-wrap {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+.marquee-wrap::before,
+.marquee-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, #fff, transparent);
+}
+
+.marquee-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, #fff, transparent);
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+.member {
+  width: 270px;
+  flex-shrink: 0;
+  padding: 0 1.5rem;
+  border: 0;
+  background: none;
+  text-align: center;
+}
+
+.member .avatar {
+  transition: transform .3s;
+  margin: 0 auto 1rem;
+}
+
+.member:hover .avatar {
+  transform: scale(1.05);
+}
+
+.member-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.member:hover .member-name {
+  color: var(--primary);
+}
+
+.avatar {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 4px solid var(--primary);
+  background: var(--blush);
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+}
+
+.avatar-initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--maroon);
+}
+
+.avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Gallery ---------- */
+
+.gallery-tile {
+  position: relative;
+  height: 256px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--maroon));
+}
+
+@media (max-width: 575px) {
+  .gallery-tile {
+    height: 192px;
+  }
+}
+
+.gallery-tile span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  text-align: center;
+  color: rgba(255, 255, 255, .8);
+}
+
+.gallery-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s;
+}
+
+.gallery-tile img:hover {
+  transform: scale(1.1);
+}
+
+/* ---------- Upcoming events button ---------- */
+
+.events-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 50px;
+  background: var(--crimson);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .3);
+  animation: float 2s ease-in-out infinite;
+}
+
+.events-btn:hover {
+  transform: scale(1.1);
+}
+
+/* ---------- Footer + popups ---------- */
+
+.footer-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #000;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--primary);
+}
+
+.popup-head {
+  background: var(--maroon);
+  color: #fff;
+}
+
+.policy h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 1.5rem;
+}
+
+/* =====================================================================
+   Exact-match tweaks (measured from aaryansmanomilan.com screenshots)
+   ===================================================================== */
+
+/* page width: 1280px max, 32px side padding -> 1216px content */
+.container { --bs-gutter-x: 4rem; max-width: 1280px; }
+@media (max-width: 575px) { .container { --bs-gutter-x: 2rem; } }
+
+.section-pad { padding: 6rem 0; }
+.committee-pad { padding: 4rem 0; }
+
+/* header: 171px tall, emblem 120px, logo ~105px wide */
+.header-inner { padding-block: 1.6rem; gap: 1rem; }
+.emblem { height: 120px; width: auto; }
+.header-logo { width: 105px; height: auto; margin-left: 2rem; }
+.header-title { margin-bottom: 2rem; line-height: 1.2; }
+.main-nav { gap: 1.25rem; }
+.no-caret::after { display: none; }
+
+/* hero: height comes from the reels (512px) + 72px above and below */
+.hero { min-height: 0; }
+.hero-content { padding: 4.5rem 0; }
+.hero-tagline { font-size: clamp(24px, 3vw, 40px); line-height: 1.7; }
+.reel-pair { gap: 2rem; }
+
+/* why choose us: 32px gap, 40px side padding, 64px icons */
+.cards-row { --bs-gutter-x: 2rem; --bs-gutter-y: 2rem; }
+.why-card { padding: 2rem 2.5rem; border: 0; border-radius: 12px; }
+.why-icon { width: 64px; height: 64px; object-fit: contain; }
+
+/* gallery tiles */
+.gallery-tile { border-radius: 12px; }
+
+/* footer */
+.site-footer { background: #fff; padding: 4rem 0 2rem; }
+.footer-logo { display: block; width: 195px; max-width: 100%; margin: 0 auto; }
+.footer-list { list-style: none; padding: 0; gap: .75rem; }
+.footer-social { padding: 3rem 0 3rem; border-bottom: 1px solid #111; font-size: 1rem; }
+.footer-copy { padding-top: 2rem; }
+
+/* ---- round 2: fixes found by rendering the page ---- */
+/* the logo/emblem PNGs have transparent padding, so size the box and crop it */
+.emblem { width: 75px; height: 120px; object-fit: contain; flex-shrink: 0; }
+.header-logo { width: 140px; height: 110px; object-fit: cover; margin-left: 1.5rem; flex-shrink: 0; }
+.main-nav a, .main-nav button { white-space: nowrap; }
+.nav-link-custom { font-size: 19px; }
+.header-inner { padding-block: 1.6rem; }
+
+@media (min-width: 992px) {
+  .hero-text-col { padding-left: 6.5rem; }
+}
+.hero-content { padding: 4.75rem 0; }
+.reel { width: 282px; height: 500px; }
+@media (min-width: 1200px) { .reel { width: 282px; height: 500px; } }
+.reel-pair { gap: 2.25rem; }
+
+.footer-logo { width: 260px; height: 170px; object-fit: cover; }
+@media (min-width: 992px) { .reel-pair { padding-right: 1.75rem; } }
+/* emblem PNG has empty margins: oversize the box, pull it back with negative margins */
+.emblem { width: 92px; height: 164px; margin-block: -22px; }
+.emblem:first-child { margin-left: -14px; }
+.emblem:last-of-type { margin-right: -14px; }
+.header-logo { margin-left: 0; }
+/* final emblem/logo sizing (square boxes; PNGs have transparent side padding) */
+.emblem { width: 120px; height: 120px; margin-block: 0; }
+.emblem:first-child { margin-left: -23px; }
+.emblem:last-of-type { margin-right: -23px; }
+.header-logo { margin-left: -20px; }
+.footer-list li { display: flex; align-items: flex-start; }
+.footer-list li i { flex-shrink: 0; margin-top: 4px; }
+.footer-list li a { overflow-wrap: anywhere; }

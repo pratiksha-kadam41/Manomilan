@@ -1,69 +1,78 @@
-import { useState } from 'react';
-import { Img, useModalBehavior } from './ui.jsx';
+// Top bar. Phone and desktop menus are both in this file; nothing is imported except what React needs.
 
-export default function Header({ SITE, NAV_LINKS }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const close = () => setMenuOpen(false);
-  useModalBehavior(menuOpen, close);
-  const desktopLink = 'text-gray-700 transition-colors duration-300 hover:text-primary';
+const SITE_URL = "https://aaryansmanomilan.com";
+const REGISTER_URL = `${SITE_URL}/melava/public/register`;
+const LOGIN_URL = `${SITE_URL}/login`;
 
+// `href` starting with "#" scrolls inside this page; others open the old site.
+const NAV_LINKS = [
+  { label: "Home", href: "#home" },
+  { label: "About us", href: `${SITE_URL}/aboutus` },
+  { label: "How It Works", href: `${SITE_URL}/how-it-works` },
+  { label: "Success Stories", href: `${SITE_URL}/success-stories` },
+  { label: "Our services", href: `${SITE_URL}/ourServices` },
+  { label: "Contact us", href: "#contact" },
+];
+
+// If a picture file is missing, hide it instead of showing a broken icon.
+const hideBroken = (e) => { e.currentTarget.style.display = "none"; };
+
+export default function Header() {
   return (
     <>
-      <header className="sticky top-0 z-50 bg-blush shadow-lg">
-        <div className="container mx-auto flex min-h-20 items-center justify-between gap-3 px-4 py-2 xl:min-h-36 xl:gap-6 xl:py-3">
-          <Img
-            src="/website/output-onlinepngtools.png"
-            alt="Jain emblem"
-            className="hidden h-24 w-16 shrink-0 object-contain xl:block"
-          />
+      <header className="site-header sticky-top shadow">
+        <div className="container header-inner d-flex align-items-center justify-content-between">
+          <img src="/website/output-onlinepngtools.png" alt="Jain emblem" className="emblem d-none d-lg-block" onError={hideBroken} />
+          <img src="/website/Mano_Milan_Final_Website.png" alt="Aaryan's Manomilan logo" className="header-logo" onError={hideBroken} />
 
-          <div className="shrink-0 transition-transform duration-300 hover:scale-105">
-            <Img
-              src="/website/Mano_Milan_Final_Website.png"
-              alt="Aaryan's Manomilan Logo"
-              className="h-20 w-24 object-contain sm:h-24 sm:w-32 xl:h-32 xl:w-36"
-            />
-          </div>
-
-          <div className="hidden min-w-0 flex-1 flex-col items-center justify-center xl:flex">
-            <h3 className="mb-4 text-center text-4xl font-bold text-maroon 2xl:text-5xl" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
+          {/* desktop menu */}
+          <div className="d-none d-lg-flex flex-column align-items-center flex-grow-1">
+            <h3 className="header-title">
               <span className="text-white">||</span> जय जिनेन्द्र <span className="text-white">||</span>
             </h3>
-            <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-base font-medium 2xl:gap-x-6" aria-label="Main">
-              {NAV_LINKS.map((l) => <a key={l.label} href={l.href} className={`${desktopLink} whitespace-nowrap`}>{l.label}</a>)}
+            <nav className="main-nav d-flex align-items-center" aria-label="Main">
+              {NAV_LINKS.map((l) => (
+                <a key={l.label} href={l.href} className="nav-link-custom">{l.label}</a>
+              ))}
+              <div className="dropdown">
+                <button type="button" className="nav-link-custom no-caret dropdown-toggle border-0 bg-transparent p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                  Registration Plan
+                </button>
+                <ul className="dropdown-menu">
+                  <li><a className="dropdown-item" href={REGISTER_URL}>Registration</a></li>
+                  <li><a className="dropdown-item" href={LOGIN_URL}>Login</a></li>
+                </ul>
+              </div>
             </nav>
           </div>
 
-          <Img
-            src="/website/output-onlinepngtools.png"
-            alt="Jain emblem"
-            className="hidden h-24 w-16 shrink-0 object-contain xl:block"
-          />
+          <img src="/website/output-onlinepngtools.png" alt="Jain emblem" className="emblem d-none d-lg-block" onError={hideBroken} />
 
           {/* phone buttons */}
-          <div className="flex items-center gap-2 sm:gap-3 xl:hidden">
-            <a href={SITE.urls.login} className="rounded-md border border-primary bg-white px-3 py-2 text-xs font-semibold text-primary shadow-sm">Login</a>
-            <a href={SITE.urls.register} className="whitespace-nowrap rounded-md bg-primary px-3 py-2 text-xs font-semibold text-white shadow-sm">Register</a>
-            <button className="ml-1 flex flex-col p-1" onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen}>
-              {[0, 1, 2].map((i) => <span key={i} className="my-[3px] h-[3px] w-[25px] bg-maroon" />)}
+          <div className="d-flex d-lg-none align-items-center gap-2">
+            <a href={LOGIN_URL} className="btn btn-sm btn-light border-danger text-danger fw-semibold">Login</a>
+            <a href={REGISTER_URL} className="btn btn-sm btn-danger fw-semibold">Register</a>
+            <button type="button" className="btn menu-btn p-0 ms-1" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-label="Open menu">
+              <i className="bi bi-list" />
             </button>
           </div>
         </div>
       </header>
 
-      {menuOpen && (
-        <div className="fixed inset-0 z-[9998] h-screen overflow-y-auto bg-black/90">
-          <button onClick={close} aria-label="Close menu" className="absolute right-5 top-5 z-[9999] text-[40px] leading-none text-white">&times;</button>
-          <nav className="flex min-h-screen flex-col items-center justify-center p-5" aria-label="Mobile">
-            <h3 className="mb-[30px] text-[32px] font-bold text-white">|| जय जिनेन्द्र ||</h3>
+      {/* phone menu (slides in from the right) */}
+      <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="mobileMenu" aria-labelledby="mobileMenuTitle">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="mobileMenuTitle">|| जय जिनेन्द्र ||</h5>
+          <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" />
+        </div>
+        <div className="offcanvas-body">
+          <nav className="list-group list-group-flush" aria-label="Mobile">
             {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} onClick={close} className="w-full border-b border-white/10 py-[15px] text-center text-lg text-white">{l.label}</a>
+              <a key={l.label} href={l.href} data-bs-dismiss="offcanvas" className="list-group-item list-group-item-action bg-transparent text-white text-center border-secondary py-3">{l.label}</a>
             ))}
-            <a href={SITE.urls.register} onClick={close} className="w-full border-b border-white/10 py-[15px] text-center text-lg text-white">Registration</a>
-            <a href={SITE.urls.login} onClick={close} className="w-full border-b border-white/10 py-[15px] text-center text-lg text-white">Login</a>
           </nav>
         </div>
-      )}
+      </div>
     </>
   );
 }
