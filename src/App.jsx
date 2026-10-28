@@ -8,18 +8,25 @@ import HowItWorks from "./pages/HowItWorks.jsx";
 import SuccessStories from "./pages/SuccessStories.jsx";
 import OurServices from "./pages/OurServices.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+import Login from "./pages/Login.jsx";
+import Dashboard from "./admin/pages/Dashboard";
+import CandidateDashboard from "./candidate/pages/Dashboard";
+import { getSession, isAdminRole, homeForRole } from "./auth";
 
 // Add a page here: "/url-name": Component
 const ROUTES = {
   "/": Home,
   "/aboutus": About,
-   "/how-it-works": HowItWorks,
-   "/success-stories": SuccessStories,
-   "/our-services": OurServices,
-    "/contactus": ContactUs, 
+  "/how-it-works": HowItWorks,
+  "/success-stories": SuccessStories,
+  "/our-services": OurServices,
+  "/contactus": ContactUs,
+
+  "/login": Login,
+  "/candidate": CandidateDashboard,
+  "/admin": Dashboard,
 };
 
-// "#/aboutus" -> "/aboutus"
 const getPath = () => {
   const p = window.location.hash.replace(/^#/, "").split("?")[0];
   return p === "" ? "/" : p;
@@ -37,13 +44,29 @@ export default function App() {
     return () => window.removeEventListener("hashchange", onChange);
   }, []);
 
-  const Page = ROUTES[path];
+  const session = getSession();
+  const isAdminPath = path.startsWith("/admin");
+  const isCandidatePath = path.startsWith("/candidate");
+  const isLogin = path === "/login";
+
+  // Private pages need a login
+  const needsLogin = (isAdminPath || isCandidatePath) && !session;
+
+  // A candidate who types /admin is sent to their own page
+  const wrongRole = isAdminPath && session && !isAdminRole(session.role);
+  useEffect(() => {
+    if (wrongRole) window.location.hash = homeForRole(session.role);
+  }, [wrongRole]);
+  if (wrongRole) return null;
+
+  const Page = needsLogin ? Login : ROUTES[path];
+  const hideChrome = isAdminPath || isCandidatePath || isLogin; // hide public Header/Footer
 
   return (
     <>
-      <Header />
+      {!hideChrome && <Header />}
       {Page ? <Page /> : <ComingSoon path={path} />}
-      <Footer />
+      {!hideChrome && <Footer />}
     </>
   );
 }
