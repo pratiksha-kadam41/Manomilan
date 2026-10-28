@@ -6,6 +6,8 @@ import About from "./pages/About.jsx";
 import ComingSoon from "./pages/ComingSoon.jsx";
 import HowItWorks from "./pages/HowItWorks.jsx";
 import SuccessStories from "./pages/SuccessStories.jsx";
+import OurServices from "./pages/OurServices.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
 
 // Add a page here: "/url-name": Component
 const ROUTES = {
@@ -13,6 +15,8 @@ const ROUTES = {
   "/aboutus": About,
    "/how-it-works": HowItWorks,
    "/success-stories": SuccessStories,
+   "/our-services": OurServices,
+    "/contactus": ContactUs, 
 };
 
 // "#/aboutus" -> "/aboutus"
