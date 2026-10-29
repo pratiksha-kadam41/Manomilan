@@ -2,6 +2,8 @@ import {
   Heart, LayoutDashboard, Users, Globe, BadgeCheck, ShieldAlert,
   CalendarHeart, GraduationCap, UserPlus, KeyRound, FileText, LogOut,
 } from "lucide-react";
+
+import { clearSession } from "../../auth";
 import { menuItems } from "../data/adminData";
 
 const ICONS = {
@@ -49,10 +51,19 @@ export default function Sidebar({ currentPath }) {
         })}
       </nav>
 
-      <a href="#/" className="adm-link adm-logout" title="Logout">
-        <LogOut size={20} />
-        <span className="adm-link-text">Logout</span>
-      </a>
+      <a
+  href="#/"
+  className="adm-link adm-logout"
+  title="Logout"
+  onClick={(e) => {
+    e.preventDefault();
+    clearSession();
+    window.location.replace("#/");
+  }}
+>
+  <LogOut size={20} />
+  <span className="adm-link-text">Logout</span>
+</a>
     </aside>
   );
 }

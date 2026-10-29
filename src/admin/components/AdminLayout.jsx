@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, ChevronDown, KeyRound, LogOut } from "lucide-react";
+import { clearSession } from "../../auth";
 import Sidebar from "./Sidebar";
 import "../admin.css";
 
@@ -20,10 +21,10 @@ export default function AdminLayout({ currentPath, children }) {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("adminToken"); // used later when login is added
-    window.location.hash = "#/";
-  };
-
+  setMenuOpen(false);
+  clearSession();                  // removes the session and cancels it on the server
+  window.location.replace("#/");   // replace, so Back can't return to the admin page
+};
   const handleChangePassword = () => {
     setMenuOpen(false);
     window.location.hash = "#/admin/change-password";

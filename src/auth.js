@@ -1,27 +1,96 @@
 const BASE = import.meta.env.VITE_API_URL;
 const ADMIN_ROLES = ["admin", "super"];
 
+const SESSION_KEY = "auth";
+const IDLE_LIMIT = 15 * 60 * 1000; // sign out after 15 minutes of no activity
+const MAX_AGE = 8 * 60 * 60 * 1000; // sign out after 8 hours no matter what
+
+// One-time cleanup of old sessions saved by earlier versions of this app
+localStorage.removeItem("authToken");
+localStorage.removeItem("authRole");
+localStorage.removeItem("adminToken");
+
 export const isAdminRole = (role) => ADMIN_ROLES.includes(role);
 
 // Where each type of person lands after login
 export const homeForRole = (role) =>
   isAdminRole(role) ? "#/admin" : "#/candidate";
 
-/* ---------- Session helpers ---------- */
+/* ---------- Session helpers ----------
+   sessionStorage is wiped when the tab or browser is closed.
+   When your backend uses httpOnly cookies, these functions will ask the
+   server instead, and nothing will be stored in the browser. */
+const read = () => {
+  try {
+    return JSON.parse(sessionStorage.getItem(SESSION_KEY));
+  } catch {
+    return null;
+  }
+};
+
 export function saveSession({ token, role }) {
-  localStorage.setItem("authToken", token);
-  localStorage.setItem("authRole", role);
+  const now = Date.now();
+  sessionStorage.setItem(
+    SESSION_KEY,
+    JSON.stringify({ token, role, startedAt: now, lastActive: now }),
+  );
 }
 
 export function getSession() {
-  const token = localStorage.getItem("authToken");
-  const role = localStorage.getItem("authRole");
-  return token && role ? { token, role } : null;
+  const s = read();
+  if (!s) return null;
+
+  const now = Date.now();
+  if (now - s.lastActive > IDLE_LIMIT || now - s.startedAt > MAX_AGE) {
+    clearSession(); // expired
+    return null;
+  }
+  return { token: s.token, role: s.role };
 }
 
+// Records that the person is still active
+export function touchSession() {
+  const s = read();
+  if (!s) return;
+  s.lastActive = Date.now();
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(s));
+}
+
+// Logout: clears the browser copy and tells the server to cancel the session
 export function clearSession() {
-  localStorage.removeItem("authToken");
-  localStorage.removeItem("authRole");
+  const s = read();
+  sessionStorage.removeItem(SESSION_KEY);
+
+  if (BASE && s?.token) {
+    fetch(`${BASE}/logout`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${s.token}` },
+    }).catch(() => {}); // even if this fails, the person is logged out here
+  }
+}
+
+// Watches for activity; calls onExpire when the session has timed out
+export function watchActivity(onExpire) {
+  let last = 0;
+  const bump = () => {
+    const now = Date.now();
+    if (now - last > 30000) {
+      last = now;
+      touchSession();
+    }
+  };
+
+  const events = ["click", "keydown", "mousemove", "scroll", "touchstart"];
+  events.forEach((e) => window.addEventListener(e, bump, { passive: true }));
+
+  const timer = setInterval(() => {
+    if (!getSession()) onExpire();
+  }, 15000);
+
+  return () => {
+    events.forEach((e) => window.removeEventListener(e, bump));
+    clearInterval(timer);
+  };
 }
 
 /* ---------- Login ---------- */

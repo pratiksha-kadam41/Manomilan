@@ -11,7 +11,11 @@ import ContactUs from "./pages/ContactUs.jsx";
 import Login from "./pages/Login.jsx";
 import Dashboard from "./admin/pages/Dashboard";
 import CandidateDashboard from "./candidate/pages/Dashboard";
-import { getSession, isAdminRole, homeForRole } from "./auth";
+import { getSession, isAdminRole, homeForRole, watchActivity } from "./auth";
+
+
+
+import Profiles from "./admin/pages/Profiles/Profiles.jsx";
 
 // Add a page here: "/url-name": Component
 const ROUTES = {
@@ -25,6 +29,7 @@ const ROUTES = {
   "/login": Login,
   "/candidate": CandidateDashboard,
   "/admin": Dashboard,
+   "/admin/profiles": Profiles,
 };
 
 const getPath = () => {
@@ -44,7 +49,23 @@ export default function App() {
     return () => window.removeEventListener("hashchange", onChange);
   }, []);
 
+
+  useEffect(() => {
+  const onShow = (e) => { if (e.persisted) setPath(getPath()); };
+  window.addEventListener("pageshow", onShow);
+  return () => window.removeEventListener("pageshow", onShow);
+}, []);
   const session = getSession();
+  const loggedIn = !!session;
+
+  // While logged in, sign the person out automatically when the session expires
+  useEffect(() => {
+    if (!loggedIn) return;
+    return watchActivity(() => {
+      window.location.hash = "#/login?expired=1";
+    });
+  }, [loggedIn]);
+
   const isAdminPath = path.startsWith("/admin");
   const isCandidatePath = path.startsWith("/candidate");
   const isLogin = path === "/login";
